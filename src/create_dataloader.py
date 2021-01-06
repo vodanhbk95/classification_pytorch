@@ -8,9 +8,9 @@ from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import StratifiedKFold
 
 class CassavaDataset(Dataset):
-    def __init__(self, data_root, data, transformation=None):
-        # self.data_path = pd.read_csv(csv_file)
-        self.data_path = data
+    def __init__(self, data_root, csv_file, transformation=None):
+        self.data_path = pd.read_csv(csv_file)
+        # self.data_path = data
         self.transform = transformation
         self.data_root = data_root
     
@@ -19,11 +19,11 @@ class CassavaDataset(Dataset):
     
     def __getitem__(self, idx):
         
-        # img_name = os.path.join(self.data_root, self.data_path.iloc[idx, 0])
-        img_name = os.path.join(self.data_root, self.data_path['image_id'].iloc[idx])
+        img_name = os.path.join(self.data_root, self.data_path.iloc[idx, 0])
+        # img_name = os.path.join(self.data_root, self.data_path['image_id'].iloc[idx])
         image = Image.open(img_name)
         label = self.data_path['label'].iloc[idx]
-        # import ipdb; ipdb.set_trace()
+        # print(img_name, label)
         if self.transform:
             image = self.transform(image)        
         
